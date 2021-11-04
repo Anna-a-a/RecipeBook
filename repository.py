@@ -1,7 +1,6 @@
-from PyQt5 import QtWidgets, QtCore, QtGui
-from db_handler import *
+import sqlite3
 
-class DataBase():
+class Repository():
     def isUserExists(self, login, password):
         con = sqlite3.connect('recipe_book.db')
         cur = con.cursor()

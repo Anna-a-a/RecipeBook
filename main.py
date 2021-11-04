@@ -1,8 +1,8 @@
 import sqlite3
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
-from data_base_functions import *
-from PyQt5 import uic, QtWidgets
+from repository import *
+from PyQt5 import uic
 
 
 class Form(QWidget):
@@ -13,11 +13,12 @@ class Form(QWidget):
 
     def initUI(self):
         self.signInBtn.clicked.connect(self.signIn)
-        self.dataBase = DataBase()
+        self.repository = Repository()
 
     def signIn(self):
-        if self.dataBase.isUserExists(self.loginEdit.text(), self.passwordEdit.text()):
+        if self.repository.isUserExists(self.loginEdit.text(), self.passwordEdit.text()):
             QMessageBox.about(self, "Оповещение", "Удачно!")
+
         else:
             QMessageBox.about(self, "Оповещение", "Неудачно!")
 
