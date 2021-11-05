@@ -14,11 +14,15 @@ class LoginForm(QWidget):
 
     def initUI(self):
         self.signInBtn.clicked.connect(self.signIn)
-        self.repository = Repository()
         self.mainForm = MainWindow()
+        repository = Repository()
+        self.mainForm.repository = repository
+        self.repository = repository
 
     def signIn(self):
         if self.repository.isUserExists(self.loginEdit.text(), self.passwordEdit.text()):
+            userId = self.repository.getUserIdByLogin(self.loginEdit.text())
+            self.mainForm.initPage(self.loginEdit.text(), userId)
             QMessageBox.about(self, "Оповещение", "Удачно!")
             self.hide()
             self.mainForm.show()

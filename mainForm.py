@@ -36,3 +36,7 @@ class MainWindow(QMainWindow):
     def addRecipe(self):
         self.hide()
         self.addRecipeForm.show()
+
+    def initPage(self, login, userId):
+        recipeNames = self.repository.getRecipeNames(userId)
+        print(recipeNames)
