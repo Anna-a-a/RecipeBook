@@ -21,10 +21,9 @@ class MainWindow(QMainWindow):
         self.mainLabel.setText("Your Recipe book")
         self.mainLabel.setFont(QtGui.QFont("Times", 20, QtGui.QFont.Bold))
 
-        self.cmb = QComboBox(self)
-        self.cmb.resize(110, 28)
-        self.cmb.move(10, 51)
-
+        self.recipeComboBox = QComboBox(self)
+        self.recipeComboBox.resize(110, 28)
+        self.recipeComboBox.move(10, 51)
 
         self.addRecipeBtn = QPushButton('+', self)
         self.addRecipeBtn.setToolTip("Добавьте рецепт")
@@ -38,5 +37,8 @@ class MainWindow(QMainWindow):
         self.addRecipeForm.show()
 
     def initPage(self, login, userId):
-        recipeNames = self.repository.getRecipeNames(userId)
-        print(recipeNames)
+        recipes = self.repository.getRecipes(userId)
+        for recipe in recipes:
+            name, recipeId, description = recipe
+            self.recipeComboBox.addItem(name)
+        self.setWindowTitle(f"{login}'s: Recipe Book")
