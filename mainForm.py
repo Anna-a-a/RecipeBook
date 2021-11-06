@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QComboBox, QTextEdit
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QComboBox, QTextEdit, QListWidget
 from PyQt5 import QtGui
 from loginForm import *
 from addRecipeForm import *
@@ -24,11 +24,7 @@ class MainWindow(QMainWindow):
         self.recipeComboBox = QComboBox(self)
         self.recipeComboBox.resize(110, 28)
         self.recipeComboBox.move(10, 51)
-
-        self.descriptionTextEdit = QTextEdit(self)
-        self.descriptionTextEdit.move(10, 100)
-        self.descriptionTextEdit.resize(200, 100)
-
+        self.recipeComboBox.currentTextChanged.connect(self.on_recipe_combobox_changed)
 
         self.addRecipeBtn = QPushButton('+', self)
         self.addRecipeBtn.setToolTip("Добавьте рецепт")
@@ -37,15 +33,43 @@ class MainWindow(QMainWindow):
 
         self.addRecipeBtn.clicked.connect(self.addRecipe)
 
+        self.descriptionTextEdit = QTextEdit(self)
+        self.descriptionTextEdit.move(10, 100)
+        self.descriptionTextEdit.resize(200, 100)
+
+        self.ingredientsListWidged = QListWidget(self)
+        self.ingredientsListWidged.resize(300, 120)
+        self.ingredientsListWidged.move(10, 150)
+
+    def on_recipe_combobox_changed(self, name):
+        # find selected recipe
+        selectedRecipe = list(filter(lambda recipe : recipe[0] == name,self.recipes))[0]
+        name, recipeId, description = selectedRecipe
+
+        # fill description
+        self.descriptionTextEdit.setText(description)
+
+        # add ingredients
+        self.ingredientsListWidged.clear()
+        firstRecipeIngredients = self.repository.getIngredientsByRecipeId(recipeId)
+        for ingredient in firstRecipeIngredients:
+            ingredientId, name = ingredient
+            self.ingredientsListWidged.addItem(name)
+
+
     def addRecipe(self):
         self.hide()
         self.addRecipeForm.show()
 
     def initPage(self, login, userId):
-        recipes = self.repository.getRecipes(userId)
-        for recipe in recipes:
+        # get user's recipes
+        self.recipes = self.repository.getRecipes(userId)
+
+        # fill recipes combobox
+        for recipe in self.recipes:
             name, recipeId, description = recipe
             self.recipeComboBox.addItem(name)
 
-        self.descriptionTextEdit.setText(recipes[0][2])
+        # fill main window title
         self.setWindowTitle(f"{login}'s: Recipe Book")
+
