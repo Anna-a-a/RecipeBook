@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QComboBox
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QComboBox, QTextEdit
 from PyQt5 import QtGui
 from loginForm import *
 from addRecipeForm import *
@@ -25,6 +25,11 @@ class MainWindow(QMainWindow):
         self.recipeComboBox.resize(110, 28)
         self.recipeComboBox.move(10, 51)
 
+        self.descriptionTextEdit = QTextEdit(self)
+        self.descriptionTextEdit.move(10, 100)
+        self.descriptionTextEdit.resize(200, 100)
+
+
         self.addRecipeBtn = QPushButton('+', self)
         self.addRecipeBtn.setToolTip("Добавьте рецепт")
         self.addRecipeBtn.resize(100, 30)
@@ -41,4 +46,6 @@ class MainWindow(QMainWindow):
         for recipe in recipes:
             name, recipeId, description = recipe
             self.recipeComboBox.addItem(name)
+
+        self.descriptionTextEdit.setText(recipes[0][2])
         self.setWindowTitle(f"{login}'s: Recipe Book")
