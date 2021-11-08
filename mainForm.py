@@ -56,7 +56,6 @@ class MainWindow(QMainWindow):
             ingredientId, name = ingredient
             self.ingredientsListWidged.addItem(name)
 
-
     def addRecipe(self):
         self.hide()
         self.addRecipeForm.show()
@@ -64,6 +63,9 @@ class MainWindow(QMainWindow):
     def initPage(self, login, userId):
         # get user's recipes
         self.recipes = self.repository.getRecipes(userId)
+        self.addRecipeForm.repository = self.repository
+        self.addRecipeForm.userId = userId
+        self.addRecipeForm.mainForm = self
 
         # fill recipes combobox
         for recipe in self.recipes:

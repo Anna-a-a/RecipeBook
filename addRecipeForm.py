@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
-from repository import *
-from PyQt5 import uic
+from loginForm import *
 from mainForm import *
 
 
@@ -11,4 +10,18 @@ class AddRecipeForm(QWidget):
         self.initUI()
 
     def initUI(self):
-        pass
+        self.saveButton.clicked.connect(self.saveRecipe)
+        self.addButton.clicked.connect(self.addIngredient)
+
+    def addIngredient(self):
+        countOfRecipes = self.repository.getRecipesMaxId()[0] + 1
+        self.repository.addIngredients(countOfRecipes, self.repository.getIngredientsMaxId()[0] + 1,
+                                       self.ingidientLineEdit.text())
+        self.ingidientLineEdit.clear()
+
+    def saveRecipe(self):
+        countOfRecipes = self.repository.getRecipesMaxId()[0] + 1
+        self.repository.addRecipe(countOfRecipes, self.nameEdit.text(), self.descriptionTextEdit.toPlainText(),
+                                  self.userId)
+        self.hide()
+        self.mainForm.show()

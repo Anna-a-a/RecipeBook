@@ -54,5 +54,52 @@ class Repository():
             cur.close()
             con.close()
 
+    def addRecipe(self, recipe_id, name, description, user_id):
+        con = sqlite3.connect(self.dbName)
+        cur = con.cursor()
 
+        try:
+            cur.execute(f"INSERT INTO recipes(recipe_id, name, description, user_id)"
+                        f" VALUES({recipe_id}, '{name}', '{description}', {user_id});")
+        finally:
+            con.commit()
+            cur.close()
+            con.close()
 
+    def addIngredients(self, recipe_id, ingredient_id, name):
+        con = sqlite3.connect(self.dbName)
+        cur = con.cursor()
+
+        try:
+            cur.execute(f"INSERT OR IGNORE INTO ingredients(ingredient_id, name) "
+                        f"VALUES({ingredient_id}, '{name}');")
+
+            cur.execute(f"INSERT INTO recipes_ingredients(recipe_id, ingredient_id) "
+                        f"VALUES({recipe_id}, {ingredient_id});")
+
+        finally:
+            con.commit()
+            cur.close()
+            con.close()
+
+    def getIngredientsMaxId(self):
+        con = sqlite3.connect(self.dbName)
+        cur = con.cursor()
+
+        try:
+            cur.execute(f"SELECT MAX(ingredient_id) FROM ingredients")
+            return cur.fetchone()
+
+        finally:
+            cur.close()
+            con.close()
+
+    def getRecipesMaxId(self):
+        con = sqlite3.connect(self.dbName)
+        cur = con.cursor()
+        try:
+            cur.execute(f"SELECT MAX(recipe_id) FROM recipes")
+            return cur.fetchone()
+        finally:
+            cur.close()
+            con.close()
