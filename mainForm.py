@@ -42,6 +42,8 @@ class MainWindow(QMainWindow):
         self.ingredientsListWidged.move(10, 150)
 
     def on_recipe_combobox_changed(self, name):
+        if name == "":
+            return
         # find selected recipe
         selectedRecipe = list(filter(lambda recipe : recipe[0] == name,self.recipes))[0]
         name, recipeId, description = selectedRecipe
@@ -65,6 +67,7 @@ class MainWindow(QMainWindow):
         self.recipes = self.repository.getRecipes(userId)
         self.addRecipeForm.repository = self.repository
         self.addRecipeForm.userId = userId
+        self.userId = userId
         self.addRecipeForm.mainForm = self
 
         # fill recipes combobox
@@ -74,4 +77,12 @@ class MainWindow(QMainWindow):
 
         # fill main window title
         self.setWindowTitle(f"{login}'s: Recipe Book")
+
+    def updatePage(self):
+        self.recipes = self.repository.getRecipes(self.userId)
+
+        self.recipeComboBox.clear()
+        for recipe in self.recipes:
+            name, recipeId, description = recipe
+            self.recipeComboBox.addItem(name)
 

@@ -24,4 +24,5 @@ class AddRecipeForm(QWidget):
         self.repository.addRecipe(countOfRecipes, self.nameEdit.text(), self.descriptionTextEdit.toPlainText(),
                                   self.userId)
         self.hide()
+        self.mainForm.updatePage()
         self.mainForm.show()
