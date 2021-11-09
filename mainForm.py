@@ -12,16 +12,17 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         self.addRecipeForm = AddRecipeForm()
-        self.setGeometry(500, 300, 800, 500)
+        self.setGeometry(500, 300, 400, 500)
         self.setWindowTitle('Recipe Book')
 
         self.mainLabel = QLabel(self)
         self.mainLabel.resize(300, 50)
-        self.mainLabel.move(250, 0)
+        self.mainLabel.move(10, 0)
         self.mainLabel.setText("Your Recipe book")
         self.mainLabel.setFont(QtGui.QFont("Times", 20, QtGui.QFont.Bold))
 
         self.recipeComboBox = QComboBox(self)
+        self.recipeComboBox.setToolTip("Ваши рецепты")
         self.recipeComboBox.resize(110, 28)
         self.recipeComboBox.move(10, 51)
         self.recipeComboBox.currentTextChanged.connect(self.on_recipe_combobox_changed)
@@ -35,11 +36,11 @@ class MainWindow(QMainWindow):
 
         self.descriptionTextEdit = QTextEdit(self)
         self.descriptionTextEdit.move(10, 100)
-        self.descriptionTextEdit.resize(200, 100)
+        self.descriptionTextEdit.resize(200, 150)
 
         self.ingredientsListWidged = QListWidget(self)
-        self.ingredientsListWidged.resize(300, 120)
-        self.ingredientsListWidged.move(10, 150)
+        self.ingredientsListWidged.resize(200, 120)
+        self.ingredientsListWidged.move(10, 250)
 
     def on_recipe_combobox_changed(self, name):
         if name == "":

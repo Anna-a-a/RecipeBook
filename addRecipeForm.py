@@ -11,7 +11,9 @@ class AddRecipeForm(QWidget):
 
     def initUI(self):
         self.saveButton.clicked.connect(self.saveRecipe)
+        self.saveButton.setToolTip("Сохранение рецепта")
         self.addButton.clicked.connect(self.addIngredient)
+        self.addButton.setToolTip("Добавьте ингредиент")
 
     def addIngredient(self):
         countOfRecipes = self.repository.getRecipesMaxId()[0] + 1

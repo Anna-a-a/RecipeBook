@@ -18,6 +18,18 @@ class Repository():
             cur.close()
             con.close()
 
+    def addUser(self, user_id, login, password):
+        con = sqlite3.connect(self.dbName)
+        cur = con.cursor()
+
+        try:
+            cur.execute(f"INSERT OR IGNORE INTO users(user_id, login, password) "
+                        f"VALUES({user_id}, '{login}', '{password}');")
+
+        finally:
+            con.commit()
+            cur.close()
+            con.close()
 
     def getUserIdByLogin(self, login):
         con = sqlite3.connect(self.dbName)
@@ -99,6 +111,16 @@ class Repository():
         cur = con.cursor()
         try:
             cur.execute(f"SELECT MAX(recipe_id) FROM recipes")
+            return cur.fetchone()
+        finally:
+            cur.close()
+            con.close()
+
+    def getUsersMaxId(self):
+        con = sqlite3.connect(self.dbName)
+        cur = con.cursor()
+        try:
+            cur.execute(f"SELECT MAX(user_id) FROM users")
             return cur.fetchone()
         finally:
             cur.close()

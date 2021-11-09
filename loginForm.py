@@ -14,6 +14,7 @@ class LoginForm(QWidget):
 
     def initUI(self):
         self.signInBtn.clicked.connect(self.signIn)
+        self.signUpBtn.clicked.connect(self.signUp)
         self.mainForm = MainWindow()
         repository = Repository()
         self.mainForm.repository = repository
@@ -27,6 +28,13 @@ class LoginForm(QWidget):
             self.mainForm.show()
         else:
             QMessageBox.about(self, "Оповещение", "Неверно введен логин или пароль")
+
+    def signUp(self):
+        countOfUsers = self.repository.getUsersMaxId()[0] + 1
+        self.repository.addUser(countOfUsers, self.loginEdit.text(), self.passwordEdit.text())
+        QMessageBox.about(self, "Оповещение", "Регистрация успешна, войдите в свой аккаунт")
+        self.loginEdit.clear()
+        self.passwordEdit.clear()
 
 
 if __name__ == '__main__':
