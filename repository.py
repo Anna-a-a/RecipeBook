@@ -7,6 +7,7 @@ class Repository():
     def isUserExists(self, login, password):
         con = sqlite3.connect(self.dbName)
         cur = con.cursor()
+
         try:
             cur.execute(f"SELECT count(*) FROM users WHERE login = '{login}' AND password = '{password}'")
             value = cur.fetchone()
@@ -25,7 +26,6 @@ class Repository():
         try:
             cur.execute(f"INSERT OR IGNORE INTO users(user_id, login, password) "
                         f"VALUES({user_id}, '{login}', '{password}');")
-
         finally:
             con.commit()
             cur.close()
@@ -34,6 +34,7 @@ class Repository():
     def getUserIdByLogin(self, login):
         con = sqlite3.connect(self.dbName)
         cur = con.cursor()
+
         try:
             cur.execute(f"SELECT user_id FROM users WHERE login ='{login}'")
             return cur.fetchone()[0]
@@ -45,6 +46,7 @@ class Repository():
     def getRecipes(self, userId):
         con = sqlite3.connect(self.dbName)
         cur = con.cursor()
+
         try:
             cur.execute(f"SELECT name, recipe_id, description FROM recipes WHERE user_id = {userId}")
             return cur.fetchall()
@@ -88,7 +90,6 @@ class Repository():
 
             cur.execute(f"INSERT INTO recipes_ingredients(recipe_id, ingredient_id) "
                         f"VALUES({recipe_id}, {ingredient_id});")
-
         finally:
             con.commit()
             cur.close()
@@ -101,7 +102,6 @@ class Repository():
         try:
             cur.execute(f"SELECT MAX(ingredient_id) FROM ingredients")
             return cur.fetchone()
-
         finally:
             cur.close()
             con.close()
@@ -109,6 +109,7 @@ class Repository():
     def getRecipesMaxId(self):
         con = sqlite3.connect(self.dbName)
         cur = con.cursor()
+
         try:
             cur.execute(f"SELECT MAX(recipe_id) FROM recipes")
             return cur.fetchone()
@@ -119,6 +120,7 @@ class Repository():
     def getUsersMaxId(self):
         con = sqlite3.connect(self.dbName)
         cur = con.cursor()
+
         try:
             cur.execute(f"SELECT MAX(user_id) FROM users")
             return cur.fetchone()

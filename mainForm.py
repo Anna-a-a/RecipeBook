@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         self.recipeComboBox.setToolTip("Ваши рецепты")
         self.recipeComboBox.resize(110, 28)
         self.recipeComboBox.move(10, 51)
-        self.recipeComboBox.currentTextChanged.connect(self.on_recipe_combobox_changed)
+        self.recipeComboBox.currentTextChanged.connect(self.onRecipeComboboxChanged)
 
         self.addRecipeBtn = QPushButton('+', self)
         self.addRecipeBtn.setToolTip("Добавьте рецепт")
@@ -42,7 +42,8 @@ class MainWindow(QMainWindow):
         self.ingredientsListWidged.resize(200, 120)
         self.ingredientsListWidged.move(10, 250)
 
-    def on_recipe_combobox_changed(self, name):
+    #filling the Combobox
+    def onRecipeComboboxChanged(self, name):
         if name == "":
             return
         # find selected recipe
@@ -63,6 +64,7 @@ class MainWindow(QMainWindow):
         self.hide()
         self.addRecipeForm.show()
 
+    #filling out the form before loading the page
     def initPage(self, login, userId):
         # get user's recipes
         self.recipes = self.repository.getRecipes(userId)

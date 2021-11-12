@@ -67,4 +67,5 @@ cur.execute("""INSERT INTO recipes_ingredients(recipe_id, ingredient_id)
 cur.execute("""INSERT INTO recipes_ingredients(recipe_id, ingredient_id) 
    VALUES(2, 2);""")
 
+
 conn.commit()
