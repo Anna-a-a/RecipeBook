@@ -4,6 +4,22 @@ class Repository():
     def __init__(self):
         self.dbName = 'recipe_book.db'
 
+    def isLoginExists(self, login):
+        con = sqlite3.connect(self.dbName)
+        cur = con.cursor()
+
+        try:
+            cur.execute(f"SELECT count(*) FROM users WHERE login = '{login}'")
+            value = cur.fetchone()
+            if value[0] == 0:
+                return False
+            else:
+                return True
+        finally:
+            cur.close()
+            con.close()
+
+
     def isUserExists(self, login, password):
         con = sqlite3.connect(self.dbName)
         cur = con.cursor()

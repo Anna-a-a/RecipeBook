@@ -32,13 +32,13 @@ class LoginForm(QWidget):
 
     #registration and verification of account availability in the system
     def signUp(self):
-        if not self.repository.isUserExists(self.loginEdit.text(), self.passwordEdit.text()):
+        if not self.repository.isLoginExists(self.loginEdit.text()):
                 countOfUsers = self.repository.getUsersMaxId()[0] + 1
                 self.repository.addUser(countOfUsers, self.loginEdit.text(), self.passwordEdit.text())
                 QMessageBox.about(self, "Оповещение", "Регистрация успешна, войдите в свой аккаунт")
 
         else:
-            QMessageBox.about(self, "Оповещение", "Вы зарегестрированы")
+            QMessageBox.about(self, "Оповещение", "Такой пользователь уже существует")
         self.loginEdit.clear()
         self.passwordEdit.clear()
 
